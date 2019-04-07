@@ -1,6 +1,6 @@
 package com.zhouzhixiang.redis.chapter1;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import redis.clients.jedis.Jedis;
 
 public class GoodsToRedis {

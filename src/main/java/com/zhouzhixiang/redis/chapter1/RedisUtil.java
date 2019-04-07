@@ -10,7 +10,7 @@ import redis.clients.jedis.JedisPoolConfig;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * @program: scmd-knb-common
+ * @program: Redis连接工具类
  * @description:
  * @author: zhouzhixiang
  * @create: 2019-04-01 19:46
@@ -34,22 +34,24 @@ public class RedisUtil {
     /**
      * Jedis池
      */
-    public static void initialPool() {
+    public synchronized static void initialPool() {
         JedisPoolConfig config = new JedisPoolConfig();
         //设置最大连接数（100个足够用了，没必要设置太大）
         config.setMaxTotal(100);
         //获取Jedis连接的最大等待时间（50秒）
         config.setMaxWaitMillis(50 * 1000);
+        config.setBlockWhenExhausted(true);
         //在获取Jedis连接时，自动检验连接是否可用
-        config.setTestOnBorrow(true);
+        config.setTestOnBorrow(false);
         //在将连接放回池中前，自动检验连接是否有效
-        config.setTestOnReturn(true);
+        config.setTestOnReturn(false);
         //自动测试池中的空闲连接是否都是可用连接
-        config.setTestWhileIdle(true);
+//        config.setTestWhileIdle(true);
         //最大空闲连接数
-        config.setMaxIdle(10);
+        config.setMaxIdle(100);
+        config.setMinIdle(50);
         //创建连接池
-        pool = new JedisPool(config, "10.100.1.46", 6379, 2000, null, 0);
+        pool = new JedisPool(config, "39.105.176.53", 6379, 20000, "123456", 0);
     }
 
     /**
@@ -57,7 +59,7 @@ public class RedisUtil {
      */
     private static void initpool() {
         //断言 ，当前锁是否已经锁住，如果锁住了，就啥也不干，没锁的话就执行下面步骤
-        assert ! lockPool.isHeldByCurrentThread();
+//        assert ! lockPool.isHeldByCurrentThread();
         lockPool.lock();
         try {
             if (pool == null) {
@@ -71,7 +73,7 @@ public class RedisUtil {
     }
 
     public static Jedis getJedis() {
-        assert ! lockJedis.isHeldByCurrentThread();
+//        assert ! lockJedis.isHeldByCurrentThread();
         lockJedis.lock();
         if (pool == null) {
             initpool();
@@ -80,25 +82,24 @@ public class RedisUtil {
         try {
             if (pool != null) {
                 jedis = pool.getResource();
-                return jedis;
             }
         } catch (Exception e) {
             returnResource(jedis);
             logger.error("get jedis error: {}", e);
         } finally {
-//            returnResource(jedis);
             lockJedis.unlock();
         }
-        return null;
+        return jedis;
     }
 
     /**
      * 释放jedis资源
      * @param jedis
      */
-    public static void returnResource(final Jedis jedis) {
+    public synchronized static void returnResource(final Jedis jedis) {
         if (jedis != null && pool != null) {
             jedis.close();
+//            pool.returnResource(jedis);
         }
     }
 
@@ -136,8 +137,7 @@ public class RedisUtil {
      * @param key
      * @return
      */
-    public synchronized static String getString(String key) {
-        Jedis jedis = getJedis();
+    public synchronized static String getString(String key, Jedis jedis) {
         if (jedis == null || !getJedis().exists(key)) {
             return null;
         }
@@ -151,5 +151,11 @@ public class RedisUtil {
         if (pool != null) {
             pool.close();
         }
+    }
+
+    public static void main(String[] args) {
+        String s = getJedis().get("goods:iphoneX");
+
+        System.out.println(s);
     }
 }
