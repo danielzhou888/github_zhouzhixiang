@@ -1,0 +1,49 @@
+bin
+.metadata
+PLTLOG
+logs
+work
+out
+
+
+# package file
+*.war
+*.ear
+*.class
+*.jar
+
+#kdiff3 ignore
+*.orig
+
+# maven ignore
+target/
+/target/
+target/*
+
+#eclipse ignore
+.settings/
+.project
+.classpatch
+
+# idea
+.idea/
+/idea/
+*.ipr
+*.iml
+*.iws
+
+#temp file
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+
+# system ignore
+.DS_Store
+Thumbs.db
+
+/.mvn/
+mvn*
+*.class
+/*.classpath

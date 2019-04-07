@@ -1,0 +1,98 @@
+#beta env
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://10.100.1.145:3306/knbbusiness?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: scmd2017
+#  data:
+#      mongodb:
+#        database: scmd
+#        host: 10.100.1.145
+#        username: admin
+#        password: scmd2017
+#        port: 27017
+#  mail:
+#    host: smtp.ym.163.com
+#    username: company@hooyue.com
+#    password: 068734xp
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+#            required: true
+
+#redis:
+#    host: localhost
+#    port: 6379
+#    jedis:
+#      pool:
+#        max-idle: 8
+#        min-idle: 0
+#        max-active: 8
+#        max-wait: -1
+#    timeout: 0
+#
+
+
+#mybatis-plus:
+#  mapper-locations: classpath:/mapper/*Mapper.xml
+#  typeAliasesPackage: com.scmd.entity
+#  global-config:
+#    id-type: 0  #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
+#    db-column-underline: false
+#    refresh-mapper: true
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    cache-enabled: false #配置的缓存的全局开关
+#    lazyLoadingEnabled: false #延时加载的开关
+#    multipleResultSetsEnabled: false #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句,调试用
+#    call-setters-on-nulls: false
+#    return-instance-for-empty-row: false
+
+
+
+logging:
+  level: info
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  typeAliasesPackage: com.scmd.entity
+  global-config:
+    id-type: 0  #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
+    db-column-underline: false
+    refresh-mapper: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false #配置的缓存的全局开关
+    lazyLoadingEnabled: false #延时加载的开关
+    multipleResultSetsEnabled: false #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句,调试用
+    call-setters-on-nulls: false
+    return-instance-for-empty-row: false
+
+#mybatis-plus:
+#  mapper-locations: classpath:/*Mapper.xml
+#  typeAliasesPackage: com.xm.shiro.admin.entity
+#  global-config:
+#    id-type: 0  #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
+#    db-column-underline: false
+#    refresh-mapper: true
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    cache-enabled: false #配置的缓存的全局开关
+#    lazyLoadingEnabled: false #延时加载的开关
+#    multipleResultSetsEnabled: false #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句,调试用
+#    call-setters-on-nulls: false
+#    return-instance-for-empty-row: false
+#
+#  file: nohup.log
+
+server:
+  port: 30081
+  context-path: /knbbusiness/
+
